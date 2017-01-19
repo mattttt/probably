@@ -1,0 +1,10 @@
+<template name="task">
+  <li class="{{#if checked}}checked{{/if}}">
+    <button class="delete">&times;</button>
+
+    {{#if checked}}<button class="unvote">unvote</button>{{/if}}
+    {{#unless checked}}<button class="vote">vote</button>{{/unless}}
+
+    <span class="text"><strong>{{username}}</strong> - {{text}}</span> {{vote}}
+  </li>
+</template>
