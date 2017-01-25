@@ -1,25 +1,74 @@
 <body>
   <div class="container">
+    {{> loginButtons}}
+  </div>
+
+  <div class="container">
     <header>
-      <h1>Master List ({{incompleteCount}})</h1>
+      <h1>Master List - R1 ({{incompleteCountr1}})</h1>
 
       <label class="hide-completed">
         <input type="checkbox" />
         Hide Completed Tasks
       </label>
 
-      {{> loginButtons}}
-
       {{#if currentUser}}
-        <form class="new-task">
+        <form class="new-task new-task-r1">
           <input type="text" name="text" placeholder="Type to add new tasks" />
         </form>
       {{/if}}
     </header>
 
     <ul>
-      {{#each tasks}}
+      {{#each tasksr1}}
         {{> task}}
+      {{/each}}
+    </ul>
+  </div>
+  <div class="container">
+    <h1>Return Just One - R1</h1>
+    <div>
+      {{#with votetasksr1}}
+        {{text}}
+      {{/with}}
+    </div>
+  </div>
+  <div class="container">
+    <header>
+      <h1>Master List - R2 ({{incompleteCountr2}})</h1>
+
+      <label class="hide-completed">
+        <input type="checkbox" />
+        Hide Completed Tasks
+      </label>
+
+      {{#if currentUser}}
+        <form class="new-task new-task-r2">
+          <input type="text" name="text" placeholder="Type to add new tasks" />
+        </form>
+      {{/if}}
+    </header>
+
+    <ul>
+      {{#each tasksr2}}
+        {{> task}}
+      {{/each}}
+    </ul>
+  </div>
+  <div class="container">
+    <header>
+      <h1>Locations</h1>
+
+      {{#if currentUser}}
+        <form class="new-location">
+          <input type="text" name="text" placeholder="Type to add new location" />
+        </form>
+      {{/if}}
+    </header>
+
+    <ul>
+      {{#each locations}}
+        {{> location}}
       {{/each}}
     </ul>
   </div>

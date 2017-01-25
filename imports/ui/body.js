@@ -3,8 +3,10 @@ import { Template } from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
 import { Tasks } from '../api/tasks.js';
+import { Locations } from '../api/locations.js';
 
 import './task.js';
+import './location.js';
 import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
@@ -12,22 +14,41 @@ Template.body.onCreated(function bodyOnCreated() {
 });
 
 Template.body.helpers({
-  tasks() {
+  tasksr1() {
     const instance = Template.instance();
     if (instance.state.get('hideCompleted')) {
       // If hide completed is checked, filter tasks
-      return Tasks.find({ checked: { $ne: true } }, { sort: { createdAt: -1 } });
+      return Tasks.find({ checked: { $ne: true } }, { round: "1" }, { sort: { createdAt: -1 } });
     }
     // Otherwise, return all of the tasks
-    return Tasks.find({}, { sort: { createdAt: -1 } });
+    return Tasks.find({ round: "1" }, { sort: { createdAt: -1 } });
   },
-  incompleteCount() {
-    return Tasks.find({ checked: { $ne: true } }).count();
+  votetasksr1() {
+    return Tasks.findOne({ round: "1" });
+  },
+  tasksr2() {
+    const instance = Template.instance();
+    if (instance.state.get('hideCompleted')) {
+      // If hide completed is checked, filter tasks
+      return Tasks.find({ checked: { $ne: true } }, { round: "2" }, { sort: { createdAt: -1 } });
+    }
+    // Otherwise, return all of the tasks
+    return Tasks.find({ round: "2" }, { sort: { createdAt: -1 } });
+  },
+  incompleteCountr1() {
+    return Tasks.find({ round: "1" }, { checked: { $ne: true } }).count();
+  },
+  incompleteCountr2() {
+    return Tasks.find({ round: "2" }, { checked: { $ne: true } }).count();
+  },
+  locations() {
+    const instance = Template.instance();
+    return Locations.find({}, { sort: { createdAt: -1 } });
   },
 });
 
 Template.body.events({
-  'submit .new-task'(event) {
+  'submit .new-task-r1'(event) {
     // Prevent default browser form submit
     event.preventDefault();
 
@@ -39,7 +60,46 @@ Template.body.events({
     Tasks.insert({
       text,
       createdAt: new Date(), // current time
-      round: "mild",
+      round: "1",
+      owner: Meteor.userId(),
+      username: Meteor.user().username,
+    });
+
+    // Clear form
+    target.text.value = '';
+  },
+  'submit .new-task-r2'(event) {
+    // Prevent default browser form submit
+    event.preventDefault();
+
+    // Get value from form element
+    const target = event.target;
+    const text = target.text.value;
+
+    // Insert a task into the collection
+    Tasks.insert({
+      text,
+      createdAt: new Date(), // current time
+      round: "2",
+      owner: Meteor.userId(),
+      username: Meteor.user().username,
+    });
+
+    // Clear form
+    target.text.value = '';
+  },
+  'submit .new-location'(event) {
+    // Prevent default browser form submit
+    event.preventDefault();
+
+    // Get value from form element
+    const target = event.target;
+    const text = target.text.value;
+
+    // Insert a location into the collection
+    Locations.insert({
+      text,
+      createdAt: new Date(), // current time
       owner: Meteor.userId(),
       username: Meteor.user().username,
     });
