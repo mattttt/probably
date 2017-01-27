@@ -5,12 +5,17 @@
 
   {{#if currentUser}}
     <div class="container">
-      <form class="game">
-        <input type="number" name="number" placeholder="How many players?" />
-      </form>
-      <div>
-        Number of players: {{> game}}
-      </div>
+      <header>
+        <h1>Game Details</h1>
+        <form class="game">
+          <input type="number" name="number" placeholder="Update Players" />
+        </form>
+      </header>
+      <ul>
+        {{#each game}}
+          {{> gameDetails}}
+        {{/each}}
+      </ul>
     </div>
     <div class="container">
       <header>

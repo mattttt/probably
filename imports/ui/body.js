@@ -51,6 +51,9 @@ Template.body.helpers({
     const instance = Template.instance();
     return Locations.find({}, { sort: { createdAt: -1 } });
   },
+  game() {
+    return Game.find();
+  },
 });
 
 Template.body.events({
@@ -109,12 +112,26 @@ Template.body.events({
       owner: Meteor.userId(),
       username: Meteor.user().username,
     });
+
+    // Clear form
+    target.text.value = '';
   },
 
   'submit .game'(event) {
-    Game.update(this._id, {
+    // Prevent default browser form submit
+    event.preventDefault();
+
+    const target = event.target;
+    const number = target.number.value;
+
+    // Insert a game into the collection
+    Game.insert({
+      createdAt: new Date(), // current time
       players: number,
     });
+
+    // Clear form
+    target.number.value = '';
   },
 
   'change .hide-completed input'(event, instance) {
