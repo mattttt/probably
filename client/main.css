@@ -21,6 +21,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   background: white;
+  margin-bottom: 2rem;
 }
 
 header {
@@ -48,7 +49,7 @@ form {
   position: relative;
 }
 
-.new-task input, .new-location input {
+.new-task input, .new-location input, .players input  {
   box-sizing: border-box;
   padding: 10px 0;
   background: transparent;
@@ -58,7 +59,7 @@ form {
   font-size: 1em;
 }
 
-.new-task input:focus, .new-location input:focus{
+.new-task input:focus, .new-location input:focus, .players input:focus{
   outline: 0;
 }
 

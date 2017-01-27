@@ -3,8 +3,20 @@
     <button class="delete">&times;</button>
 
     {{#if checked}}<button class="unvote">unvote</button>{{/if}}
-    {{#unless checked}}<button class="vote">vote</button>{{/unless}}
+    {{#unless checked}}<button class="vote-yes">Yes</button>{{/unless}}
+    {{#unless checked}}<button class="vote-no">No</button>{{/unless}}
 
-    <span class="text"><strong>{{username}}</strong> - {{text}}</span> {{vote}}
+    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
+  </li>
+</template>
+
+<template name="tasksingle">
+  <li class="{{#if checked}}checked{{/if}}">
+
+    {{#if checked}}<button class="unvote">unvote</button>{{/if}}
+    {{#unless checked}}<button class="vote-yes">Yes</button>{{/unless}}
+    {{#unless checked}}<button class="vote-no">No</button>{{/unless}}
+
+    <span class="text">{{text}}</span>
   </li>
 </template>

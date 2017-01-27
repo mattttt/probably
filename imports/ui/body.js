@@ -4,9 +4,12 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 
 import { Tasks } from '../api/tasks.js';
 import { Locations } from '../api/locations.js';
+import { Game } from '../api/game.js';
+
 
 import './task.js';
 import './location.js';
+import './game.js';
 import './body.html';
 
 Template.body.onCreated(function bodyOnCreated() {
@@ -24,7 +27,10 @@ Template.body.helpers({
     return Tasks.find({ round: "1" }, { sort: { createdAt: -1 } });
   },
   votetasksr1() {
-    return Tasks.findOne({ round: "1" });
+    return Tasks.find({ round: "1" , "voted" : {$nin : [Meteor.user().username] }}, { limit: 1 });
+  },
+  votetasksr2() {
+    return Tasks.find({ round: "2" , "voted" : {$nin : [Meteor.user().username] }}, { limit: 1 });
   },
   tasksr2() {
     const instance = Template.instance();
@@ -103,10 +109,14 @@ Template.body.events({
       owner: Meteor.userId(),
       username: Meteor.user().username,
     });
-
-    // Clear form
-    target.text.value = '';
   },
+
+  'submit .game'(event) {
+    Game.update(this._id, {
+      players: number,
+    });
+  },
+
   'change .hide-completed input'(event, instance) {
     instance.state.set('hideCompleted', event.target.checked);
   },
